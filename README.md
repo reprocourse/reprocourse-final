@@ -2,7 +2,7 @@
 
 ## Description
 This is the final project for NEUR608 Repoducibility in Neuroscience (18 Fall)
-- The final paper and tex files are in `Documents` folder
+- The final paper and tex files are in `Documents` folder, along with the in-class presentation file.
 - The python code for reproducing the figures are in `Command-Files` folder
 - Data from original source and produced as cache in the analysis are stored in `Original-Data` and `Analysis-Data` each.
 

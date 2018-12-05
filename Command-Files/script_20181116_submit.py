@@ -109,6 +109,14 @@ def load_heuvel_data():
 
 
 def prepare_g_conn(conn_mat, dist_mat):
+    """
+
+    Prepare a networkx graph with connectivity and distance matrix
+
+    :param conn_mat:
+    :param dist_mat:
+    :return:
+    """
     g_conn = nx.from_numpy_matrix(conn_mat, create_using=nx.Graph())
     conn_mat_bd = bc.utils.binarize(conn_mat, copy=True)
     for it1 in range(conn_mat.shape[0]):
@@ -119,6 +127,12 @@ def prepare_g_conn(conn_mat, dist_mat):
 
 
 def rich_club_detection():
+    """
+
+    Main procedure for rich club detection, results are stored in file
+
+    :return:
+    """
     redo_rich_club_simu = 1
     if redo_rich_club_simu:
         conn_rc = bc.core.rich_club_wu(conn_mat, klevel=100)
@@ -142,6 +156,12 @@ def rich_club_detection():
 
 
 def rich_club_plot():
+    """
+
+    Plot the rich club diagram
+
+    :return:
+    """
     [conn_rc, randmat_rc, randmat_rc_mean,
      conn_rc_ratio, p_vals, p_sig_index] = load_pickle_file('../Analysis-Data/rc.pickle')
     # rich club significance graph
@@ -155,6 +175,13 @@ def rich_club_plot():
 
 
 def get_rc_components(g_conn):
+    """
+
+    Get rich-club/feeder/local node/edges for easy access
+
+    :param g_conn:
+    :return:
+    """
     # find rich club components
     # networkx degree calc
     g_conn_degrees = list(nx.degree(g_conn))
@@ -181,6 +208,13 @@ def get_rc_components(g_conn):
 
 
 def trade_off_1(rc_comp):
+    """
+
+    The connection types grouped by length result
+
+    :param rc_comp:
+    :return:
+    """
     g_conn, g_conn_edges, rc_types = rc_comp['g_conn'], rc_comp['g_conn_edges'], rc_comp['rc_types']
     [g_conn_rc_edges, g_conn_local_edges, g_conn_feeder_edges] = rc_types
 
@@ -218,15 +252,39 @@ def trade_off_1(rc_comp):
 
 
 def get_shortest_path_wrapper(pos, hops, Pmat):
+    """
+
+    Wrapper for getting shortest path
+
+    :param pos:
+    :param hops:
+    :param Pmat:
+    :return:
+    """
     path_tmp = bc.distance.retrieve_shortest_path(pos[0], pos[1], hops, Pmat)
     return (pos[0], pos[1], [_[0] for _ in path_tmp])
 
 
 def get_edge_tuple_from_node_list(nodes):
+    """
+
+    Helper function
+
+    :param nodes:
+    :return:
+    """
     return [(nodes[idx], nodes[idx + 1]) for idx, _ in enumerate(nodes[:-1])]
 
 
 def transform_edge_list_to_type(edge_list, rc_comp):
+    """
+
+    Get edge type from edge list
+
+    :param edge_list:
+    :param rc_comp:
+    :return:
+    """
     types = rc_comp['rc_types']
     [g_conn_rc_edges, g_conn_local_edges, g_conn_feeder_edges] = types
     expr = ''
@@ -243,6 +301,14 @@ def transform_edge_list_to_type(edge_list, rc_comp):
 
 
 def get_edge_type_cost_from_egde_list(edge_list, rc_comp):
+    """
+
+    Get edge type cost from edge list
+
+    :param edge_list:
+    :param rc_comp:
+    :return:
+    """
     g_conn = rc_comp['g_conn']
     types = rc_comp['rc_types']
     [g_conn_rc_edges, g_conn_local_edges, g_conn_feeder_edges] = types
@@ -261,6 +327,13 @@ def get_edge_type_cost_from_egde_list(edge_list, rc_comp):
 
 
 def find_all_shortest_path_pairs(conn_mat):
+    """
+
+    Find all shortest paths (computational intensive)
+
+    :param conn_mat:
+    :return:
+    """
     # find all shortest paths between all pair of nodes
     shortest_paths_nodes = []
     _, hops, Pmat = bc.distance.distance_wei_floyd(conn_mat)
@@ -276,6 +349,14 @@ def find_all_shortest_path_pairs(conn_mat):
 
 
 def get_comm_cost(g_conn, rc_comp):
+    """
+
+    Get communication cost (computational intensive)
+
+    :param g_conn:
+    :param rc_comp:
+    :return:
+    """
     [shortest_paths_nodes, shortest_paths] = load_pickle_file('../Analysis-Data/shortest_path_pairs.pickle')
     types = rc_comp['rc_types']
     [g_conn_rc_edges, g_conn_local_edges, g_conn_feeder_edges] = types
@@ -289,6 +370,13 @@ def get_comm_cost(g_conn, rc_comp):
 
 
 def show_comm_cost(rc_comp):
+    """
+
+    Present the communication cost
+
+    :param rc_comp:
+    :return:
+    """
     types = rc_comp['rc_types']
     g_conn_edges = rc_comp['g_conn_edges']
     [g_conn_rc_edges, g_conn_local_edges, g_conn_feeder_edges] = types
@@ -310,6 +398,13 @@ def show_comm_cost(rc_comp):
 
 
 def get_all_path_exprs(rc_comp):
+    """
+
+    Get all path expressions (computational intensive)
+
+    :param rc_comp:
+    :return:
+    """
     [shortest_paths_nodes, shortest_paths] = load_pickle_file('../Analysis-Data/shortest_path_pairs.pickle')
     # path motifs
     transform_partial = partial(transform_edge_list_to_type, rc_comp=rc_comp)
@@ -324,6 +419,12 @@ def get_all_path_exprs(rc_comp):
 
 
 def get_path_motifs():
+    """
+
+    Present all path mptifs
+
+    :return:
+    """
     [shortest_paths_expr, c_path_motifs] = load_pickle_file('../Analysis-Data/path_motifs.pickle')
 
     c_dict = list(dict(c_path_motifs).items())
