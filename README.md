@@ -11,6 +11,6 @@ This is the final project for NEUR608 Repoducibility in Neuroscience (18 Fall)
 - numpy, matplotlib, tqdm, brainconn, networkx, nilearn
 
 ## How to reproduce
-- Install the required python version and packages
+- Install the required python version and packages, I included a Dockerfile only to restore the environment (as docker is not suitable for generating figures interactively).
 - Run `main.py` in `Command-Files`, in the main script, comment / uncomment each line to get figures from the final paper
 - For detailed description of each function, see the source code for comments.
