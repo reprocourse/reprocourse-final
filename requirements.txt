@@ -1,0 +1,8 @@
+tqdm 
+git+git://github.com/tsalo/brainconn 
+networkx 
+pandas 
+matplotlib 
+nilearn 
+duecredit
+sklearn
