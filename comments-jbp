@@ -1,0 +1,66 @@
+# liuzhenqi77-reprocourse-final
+
+1. Project organization
+
+The project is well organized and filenames are in general self-explanatory as seen by tree -L 3. 
+Following TIER Protocol 3.0 is a good way to go about this.
+
+├── Analysis-Data
+│   ├── edge_costs.pickle
+│   ├── path_motifs.pickle
+│   └── rc.pickle
+├── Command-Files
+│   └── script_20181116_submit.py
+├── Dockerfile
+├── Documents
+│   ├── NEUR-602-Paper.pdf
+│   ├── NEUR-602-Repro-Final-Presentation.pdf
+│   └── tex-source
+│       ├── arxiv.sty
+│       ├── figures
+│       ├── references.bib
+│       └── template.tex
+├── LICENSE
+├── Original-Data
+│   └── GR_Dataset_n2x40.mat
+└── README.md
+
+
+2. Content
+  - The choice of the project is excellent. Very little work if any has been done to reproduce neuroimaging 
+    graph analysis results. 
+    The analysis of how hard it was to find a paper that could be reproduced is in itself an interesting result.
+  - The reproducibility tested here are 
+    * The capacity of a reader to understand what exactly was performed from the original paper
+    * The implemenation of Brainconn compared to the original BCT matlab code. 
+  - The analysis starts with the mat file that has already processed data - it would have been interesting 
+    to discuss the reproducibility with original data, as well as the replication.
+  - The cause of the differences between original and reproduced results could have been investigated more:
+    if there is some random initialization, what do other runs of the rich club detection produce ? how 
+    could we investigating where the differences come from? are these differences "significant" statistically 
+    or biologically ?
+    
+
+3. Code
+  - The code is reasonable. A simple 
+  >$ python script_20181116_submit.py
+  yields the following error
+  File "script_20181116_submit.py", line 57
+    with open(f'{path:}.pickle', 'wb') as f:
+  This is because I was running 3.5 and not 3.6. I recommend that code runs on older versions of python. 
+  - There is no requirements.txt - which makes it hard to get all the packages. It took me 30' to get 
+  the appropriate environment. 
+  - tkinker seems to require a system level install of python3-tk, which should be mentioned in the README.
+  - When the environment was finally correct (I used virtualenv for this) the code ran with a few warnings
+    but produced the desired output.
+  - command line options could have been provided: it is generally not good practice to use commenting
+  
+4. Suggestions
+  - Latex: include which exact version of latex has been used - in an ideal world you could do a docker container for this
+  - template.tex should be called "NEUR-602-paper.tex" or similar. Naming files / functions with names that convey meaning is important.
+  - code : see above. 
+
+5. Conclusion
+  - this is a very good project, I appreciated the work and congratulate you for it. 
+
+
